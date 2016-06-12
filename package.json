@@ -1,0 +1,16 @@
+{
+  "name": "photocell-graph",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "main": "server.js",
+  "author": "Thomas Koker",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^4.13.4",
+    "onoff": "^1.1.1",
+    "socket.io": "^1.4.6"
+  }
+}
