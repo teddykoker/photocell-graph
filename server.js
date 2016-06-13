@@ -13,13 +13,14 @@ var recentValue = RCtime(pin);
 function RCtime(pin) {
   var rcpin = new GPIO(pin, 'out');
   rcpin.writeSync(0);
-
+  //rcpin.unexport();
 
   rcpin = new GPIO(pin, 'in');
   var start = new Date();
   while(rcpin.readSync() == 0){
     //do nothing
   }
+  rcpin.unexport();
   return new Date() - start;
 }
 
