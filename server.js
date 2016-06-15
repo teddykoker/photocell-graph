@@ -30,9 +30,9 @@ app.get('/', function(req, res){
 
 io.on('connection', function(socket){
   console.log('New connection ' + socket.id);
-  socket.on('get', function(){
-    socket.emit('reading', {value: recentValue});
-  });
+  //socket.on('get', function(){
+    //socket.emit('reading', {value: recentValue});
+  //});
 });
 
 http.listen(3000, function(){
@@ -42,6 +42,6 @@ http.listen(3000, function(){
 
 
 setInterval(function(){
-  recentValue = RCtime(pin);
-},400);
+  io.emit('reading',{value: RCtime(pin)});
+},200);
 

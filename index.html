@@ -32,8 +32,8 @@
     var x = d3.scale.linear()
         .domain([0, n - 1])
         .range([0, width]);
-    var y = d3.scale.linear()
-        .domain([0, 200])
+    var y = d3.scale.sqrt()
+        .domain([0, 1000])
         .range([height, 0]);
     var line = d3.svg.line()
         .x(function(d, i) { return x(i); })
@@ -48,10 +48,6 @@
         .append("rect")
         .attr("width", width)
         .attr("height", height);
-    /*svg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + y(0) + ")")
-        .call(d3.svg.axis().scale(x).orient("bottom")); */
     svg.append("g")
         .attr("class", "y axis")
         .call(d3.svg.axis().scale(y).orient("left"));
@@ -62,8 +58,15 @@
         .attr("class", "line")
         .attr("d", line);
 
+    var reading = 0;
     socket.on('reading', function(data){
-      values.push(data.value);
+      reading = data.value;
+    });
+    tick();
+    function tick() {
+      // push a new values point onto the back
+      values.push(reading);
+      // redraw the line, and slide it to the left
       path
           .attr("d", line)
           .attr("transform", null)
@@ -71,16 +74,10 @@
           .duration(500)
           .ease("linear")
           .attr("transform", "translate(" + x(-1) + ",0)")
-          .each("end", get)
+          .each("end", tick);
+      // pop the old values point off the front
       values.shift();
-    });
-
-    function get(){
-      socket.emit('get');
     }
-
-    get()
-
   </script>
 </body>
 </html>
