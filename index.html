@@ -36,6 +36,7 @@
         .domain([0, 1000])
         .range([height, 0]);
     var line = d3.svg.line()
+        .interpolate("basis")
         .x(function(d, i) { return x(i); })
         .y(function(d, i) { return y(d); });
     var svg = d3.select("body").append("svg")
